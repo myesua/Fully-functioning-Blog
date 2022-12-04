@@ -1,0 +1,122 @@
+.main {
+  display: grid;
+  margin-top: 6rem;
+}
+
+.tips__head {
+  margin-left: 1.5rem;
+}
+
+.tipscard__parent {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.tipscard__parent div {
+  width: 350px;
+}
+
+@media screen and (min-width: 600px) {
+  .tipscard__parent {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tipscard__parent div {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .tipscard__parent div {
+    width: 320px;
+  }
+}
+
+@media screen and (min-width: 790px) {
+  .tipscard__parent div {
+    width: 370px;
+  }
+}
+
+@media screen and (min-width: 887px) {
+  .tipscard__parent div {
+    width: 420px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tipscard__parent {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tipscard__parent div {
+    width: 330px;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .tips__head {
+    margin-left: 4.5rem;
+  }
+
+  .tipscard__parent div {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tipscard__parent div {
+    width: 320px;
+  }
+
+  .tips__head {
+    margin-left: 9rem;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .tips__head {
+    width: 67%;
+    margin: 1.5rem auto;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .tips__head {
+    width: 58%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  .tipscard__parent div {
+    width: 365px;
+  }
+}
+
+@media screen and (min-width: 2160px) {
+  .tips__head {
+    width: 49%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  .tipscard__parent div {
+    width: 340px;
+  }
+}
+
+@media screen and (min-width: 3820px) {
+  .tips__head {
+    width: 29%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  .tipscard__parent div {
+    width: 360px;
+  }
+}

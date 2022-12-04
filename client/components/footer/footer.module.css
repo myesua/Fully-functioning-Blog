@@ -1,0 +1,142 @@
+.footer {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  /* background-color: #333; */
+  background-color: #0576e607;
+  box-shadow: 1px 5px 5px 1px #e0e0e0;
+  color: #000;
+  opacity: 0.988;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer__action {
+  color: #000;
+  /* background-image: linear-gradient(
+    174.2deg,
+    rgba(255, 244, 228, 1) 7.1%,
+    rgba(240, 246, 238, 1) 67.4%
+  ); */
+  background-color: #e0e0e0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem 2rem;
+}
+
+.footer__action h5 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.footer__action p {
+  font-size: 0.8125rem;
+}
+
+.footer__action button {
+  cursor: pointer;
+  border-radius: 50px;
+  border: none;
+  padding: 0.8rem 4rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #283c86;
+}
+
+.footer__social h5 {
+  font-size: 1.5rem;
+  font-family: 'Dancing Script', sans-serif;
+  text-align: center;
+  color: #283c86;
+}
+
+.fs__icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin: 0;
+  margin-top: -1rem;
+  list-style-type: none;
+  width: 95%;
+}
+
+.fs__icons__img {
+  cursor: pointer;
+}
+
+.footer__privacy {
+  text-align: center;
+  opacity: 0.6;
+  font-family: 'Dancing Script', sans-serif;
+  margin-top: 3rem;
+  font-size: 1rem;
+  color: #283c86;
+}
+
+.footer__privacy ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.footer__privacy ul li a {
+  color: #283c86;
+}
+
+@media screen and (min-width: 1280px) {
+  .footer__action p {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .footer__action p {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .fs__icons {
+    width: 97%;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .footer__action p {
+    width: 50%;
+  }
+
+  .fs__icons {
+    width: 98%;
+  }
+}
+
+@media screen and (min-width: 2160px) {
+  .footer__action p {
+    width: 30%;
+  }
+
+  .fs__icons {
+    width: 98%;
+  }
+}
+
+@media screen and (min-width: 3000px) {
+  .footer__action p {
+    width: 20%;
+  }
+
+  .fs__icons {
+    width: 99%;
+  }
+}

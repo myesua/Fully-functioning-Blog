@@ -1,0 +1,225 @@
+.container {
+  display: grid;
+  scroll-behavior: smooth;
+}
+
+.headerDiv {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 100px;
+  background: #fff;
+  /* background: #006d5c; */
+  color: #04140a;
+}
+
+.main {
+  display: grid;
+  margin: 6rem 0;
+}
+
+.main .hOnes {
+  margin-left: 1.5rem;
+  color: #283c86;
+}
+
+.article {
+  display: grid;
+  gap: 1rem;
+}
+
+.popular {
+  display: grid;
+  gap: 1rem;
+}
+
+.tipscard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mail__subscription {
+  margin: 6rem 0 0;
+}
+
+/* Responsiveness, media queries*/
+
+@media screen and (min-width: 600px) {
+  .container {
+    display: grid;
+    margin: 0 auto;
+  }
+  .main {
+    padding: 0 1.5rem;
+  }
+  .main .hOnes {
+    margin-left: 0;
+  }
+
+  .article {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto;
+    gap: 1rem;
+  }
+
+  .popular {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto;
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 790px) {
+  .main .hOnes {
+    font-size: 2.5rem;
+  }
+
+  .tipscard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 886px) {
+  .article {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .popular {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .tipscard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .tipscard {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1096px) {
+  .article {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .main .hOnes {
+    width: 90%;
+    margin: 2rem auto;
+  }
+
+  .popular {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .tipscard {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .article {
+    width: 80%;
+  }
+
+  .main .hOnes {
+    width: 80%;
+  }
+
+  .popular {
+    width: 80%;
+  }
+
+  .tipscard {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+}
+
+@media screen and (min-width: 1400px) {
+  .article {
+    width: 70%;
+  }
+
+  .main .hOnes {
+    width: 70%;
+  }
+
+  .popular {
+    width: 70%;
+  }
+
+  .tipscard {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .article {
+    width: 60%;
+  }
+
+  .main .hOnes {
+    width: 60%;
+  }
+
+  .popular {
+    width: 60%;
+  }
+
+  .tipscard {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 2160px) {
+  .article {
+    width: 50%;
+  }
+
+  .main .hOnes {
+    width: 50%;
+  }
+
+  .popular {
+    width: 50%;
+  }
+
+  .tipscard {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 3000px) {
+  .article {
+    width: 30%;
+  }
+
+  .main .hOnes {
+    width: 30%;
+  }
+
+  .popular {
+    width: 30%;
+  }
+
+  .tipscard {
+    width: 30%;
+  }
+}

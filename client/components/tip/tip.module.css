@@ -1,0 +1,160 @@
+/* Tip */
+.tip {
+  background-color: #0576e607;
+  box-shadow: 1px 5px 15px 1px #e0e0e0;
+  text-align: center;
+  height: 250px;
+  border-radius: 3px;
+  padding: 0.6rem 1rem 1rem;
+  display: grid;
+}
+
+.tipheader {
+  font-size: 14px;
+  background: #fff;
+  padding: 2px 7px;
+  border-radius: 5px;
+  display: flex;
+  gap: 0.3rem;
+  margin: 0 auto;
+  height: 28px;
+  cursor: pointer;
+}
+
+.tipbody {
+  display: flex;
+  flex-direction: column;
+  margin-top: -1rem;
+  line-height: 1.6;
+}
+
+.tiptitle {
+  line-height: 1.25;
+  font-weight: 700;
+  overflow-wrap: break-word;
+  font-size: 1.5rem;
+}
+
+.tipbody .desc {
+  margin-top: -0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 24px;
+  font-size: 0.875rem;
+}
+
+.tipauthor {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  font-size: 0.8125rem;
+  color: rgba(0, 0, 0, 0.4);
+  margin: 0 auto;
+}
+
+.tipauthor a {
+  width: 25px;
+  height: 25px;
+}
+
+.tipauthor a .avatar {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+
+@media screen and (min-width: 790px) {
+  .tip {
+    width: 355px;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 886px) {
+  .tip {
+    width: 270px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .tip {
+    width: 430px;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 915px) {
+  .tip {
+    width: 250px;
+  }
+}
+
+@media screen and (min-width: 926px) {
+  .tip {
+    width: 280px;
+  }
+}
+
+@media screen and (min-width: 950px) {
+  .tip {
+    width: 290px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tip {
+    width: 330px;
+  }
+
+  .tipheader {
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (min-width: 1096px) {
+  .tip {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 1190px) {
+  .tip {
+    width: 600px;
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .tip {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .tip {
+    width: 310px;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .tip {
+    width: 350px;
+  }
+}
+
+@media screen and (min-width: 2160px) {
+  .tip {
+    width: 300px;
+    height: 250px;
+  }
+}
+
+@media screen and (min-width: 3820px) {
+  .tip {
+    width: 250px;
+    height: auto;
+  }
+}
