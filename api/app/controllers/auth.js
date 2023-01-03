@@ -1,8 +1,9 @@
 const Users = require('../models/User');
 const bcrypt = require('bcrypt');
 const Token = require('../models/Token');
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
+const Notification = require('../models/Notification');
 const { transporter, sendVerificationEmail } = require('../utils/index');
 
 /**
@@ -70,44 +71,56 @@ exports.login = async (req, res, next) => {
       });
 
     let options = {
-      maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+      maxAge: 24 * 60 * 60 * 1000, // would expire after an hour
       httpOnly: true, // The cookie only accessible by the web server
+      secure: true,
+      sameSite: 'None',
     };
 
-    const token = user.generateJWT();
+    const token = user.generateAccessJWT();
 
-    res.cookie('UserSession', token, options);
+    res.cookie('SessionID', token, options);
 
-    // Login user, write token, and send back user
     const { password, ...data } = user._doc;
-    res.status(200).json({ hash: token });
+
+    res.status(200).json({
+      message: 'You have been successfully logged in!',
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-exports.check = async (req, res, next) => {
-  const cookie = req.cookies['UserSession'];
-  if (!cookie) {
-    res.status(403).json('You are forbidden to access this page.');
-  } else {
-    res.redirect('/');
-    next();
+/**
+ * @route POST api/auth/refresh
+ * @desc Refresh auth token
+ * @access public
+ */
+exports.refresh = async (req, res) => {
+  try {
+    const cookies = req.cookies;
+
+    if (!cookies?.xrefresh) return res.sendStatus(401);
+    const refreshToken = cookies.xrefresh;
+
+    const user = await Users.findOne({ refreshToken: refreshToken });
+
+    if (!user) return res.sendStatus(403);
+    const user_id = user._id.toString();
+    // If user exists in session, verify session
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err || user_id !== decoded.id) return res.sendStatus(403);
+        const accessToken = user.generateAccessJWT();
+        res.status(200).json({ hash: accessToken });
+      },
+    );
+  } catch (err) {
+    res.sendStatus(500);
   }
 };
-
-const getToken = (token) => {
-  return token;
-};
-
-// exports.getAccess = (req, res, next, access) => {
-//   console.log(access);
-//   if (!access) {
-//     console.log('token: undefined');
-//   }
-//   req.headers.authorization = 'Bearer ' + access;
-//   next();
-// };
 
 /**
  * @route POST api/veify/:token
@@ -115,7 +128,7 @@ const getToken = (token) => {
  * @access public
  */
 
-exports.verify = async (req, res, next) => {
+exports.verify = async (req, res) => {
   if (!req.params.token)
     return res.status(400).json({
       message: 'We are unable to find a user for this token. Please try again.',
@@ -153,6 +166,44 @@ exports.verify = async (req, res, next) => {
           message: 'This account has been verified! Please log in.',
         });
       });
+      const author = user.firstname + ' ' + user.lastname;
+      Notification.findOne(
+        {
+          author: author,
+        },
+        (err, notification) => {
+          if (!notification) {
+            const nT = new Notification({
+              alerts: {
+                title: 'security',
+                text: 'Your account has been successfully verified!',
+              },
+              author: author,
+            });
+            nT.save((err) => {
+              if (err) return res.status(500).json({ message: err.message });
+              return res.status(200).json({
+                success: true,
+                statusCode: 200,
+                message: 'Notification created successfully!',
+              });
+            });
+          } else {
+            notification.pushNotification({
+              title: 'security',
+              text: 'Your account has been successfully verified!',
+            });
+            notification.save((err) => {
+              if (err) return res.status(500).json({ message: err.message });
+              return res.status(200).json({
+                success: true,
+                statusCode: 200,
+                message: 'Notification added successfully!',
+              });
+            });
+          }
+        },
+      );
 
       // Send confirmation email
       const mailOptions = {
@@ -199,8 +250,75 @@ exports.resend = async (req, res) => {
       return res.status(400).json({
         message: 'This account has already been verified. Please log in.',
       });
-    await sendVerificationEmail(user, req, res);
+
+    const gToken = user.generateVerificationToken();
+    const { token } = gToken;
+
+    // Save the verification token
+    await gToken.save();
+
+    // Send verfication email
+    let link = `http://${req.headers.host}/api/auth/verify/${token}`;
+    const mailOptions = {
+      to: user.email,
+      from: process.env.FROM_EMAIL,
+      subject: 'Account Verification',
+      html: `Hello ${user.firstname}, <p>Please click here <a href='${link}'>confirm</a> to verify your account.</li></ol><p>If you did not request this, please ignore this email.</p> Regards, <br />Bechellente Ltd.`,
+    };
+
+    transporter.sendMail(mailOptions, (err, result) => {
+      if (err) throw err;
+      res.status(200).json({
+        success: true,
+        code: 200,
+        message: 'A verification email has been sent to ' + user.email + '.',
+        link: link,
+        data: result,
+      });
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+/**
+ * @route POST api/auth/logout
+ * @desc Logout user
+ * @access public
+ */
+exports.logout = async (req, res) => {
+  try {
+    // On client, also delete the request cookie
+    const user = req.body.id;
+
+    if (!user) return res.sendStatus(204); //No content
+
+    // Invalidate client's request cookie
+    let options = {
+      path: '/',
+      domain: `${process.env.CLIENT_URL}`,
+      maxAge: 'Thu, 01 Jan 1970 00:00:00 UTC', // invalid expiration date
+      httpOnly: true, // The cookie only accessible by the web server
+      secure: true,
+      sameSite: 'None',
+    };
+
+    // Is user in db?
+    const user_ = await Users.findById(user);
+
+    if (!user_) {
+      return res.status(200).json({ message: 'You are logged out!' });
+    }
+
+    // Delete user's refreshToken in db
+    await Users.findByIdAndUpdate(
+      user,
+      { $set: { refreshToken: '' } },
+      { new: true },
+    );
+    res.cookie('SessionID', options);
+    res.status(200).json({ message: 'You are logged out!' });
+  } catch (err) {
+    res.status(500).json({ status: 'FAILED', code: 500, message: err.message });
   }
 };

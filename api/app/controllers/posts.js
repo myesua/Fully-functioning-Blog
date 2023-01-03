@@ -1,4 +1,6 @@
 const Posts = require('../models/Post');
+const Pending = require('../models/Pending');
+const Notification = require('../models/Notification');
 
 /**
  * @route POST posts/
@@ -6,7 +8,7 @@ const Posts = require('../models/Post');
  * @access public
  */
 exports.create = async (req, res) => {
-  const newPost = new Posts({
+  const newPost = new Pending({
     title: req.body.title,
     description: req.body.description,
     content: req.body.content,
@@ -20,10 +22,33 @@ exports.create = async (req, res) => {
   try {
     if (!req.user)
       return res.status(401).json({ message: 'You must be logged in' });
+    const { user } = req;
+    const author = user.firstname + ' ' + user.lastname;
+
+    const notification = await Notification.findOne({ author: author });
+
+    if (!notification) {
+      const nT = new Notification({
+        alerts: {
+          title: 'New Article submitted for review',
+          text: `Your article - '${newPost.title}' has been submitted. It will be reviewed shortly by an admin`,
+        },
+        author: author,
+      });
+      await nT.save();
+    } else {
+      notification.pushNotification({
+        title: 'New Article submitted for review',
+        text: `Your article - '${newPost.title}' has been submitted. It will be reviewed shortly by an admin`,
+      });
+      await notification.save();
+    }
+
     const savedPost = await newPost.save();
-    return res
-      .status(201)
-      .json({ message: 'Post created successfully!', data: savedPost });
+    return res.status(201).json({
+      message: 'Post submitted successfully! An admin will review it shortly.',
+      data: savedPost,
+    });
   } catch (err) {
     return res.status(500).json({
       status: 'error',
