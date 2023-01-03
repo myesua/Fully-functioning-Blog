@@ -42,11 +42,12 @@ async function sendVerificationEmail(user, password, req, res) {
 
     // Send verfication email
     let link = `http://${req.headers.host}/api/auth/verify/${token}`;
+
     const mailOptions = {
       to: user.email,
       from: process.env.FROM_EMAIL,
       subject: 'Account Verification',
-      html: `Hello ${user.firstname}, <p>We got an initial request from you for an account creation with us. Please follow the instructions below to complete the process.</p><ol><li>Your password is ${password}. Please keep it as you will need it for log in after verification. It is highly recommended that you change it once you are verified.</li><li>Click here <a href='${link}'>verify account</a> to verify your account.</li></ol> <p>If you did not request this, please ignore this email.</p> Regards, <br />Bechellente Ltd.`,
+      html: `Hello ${user.firstname}, <p>We got an initial request from you for an account creation with us. Please follow the instructions below to complete the process.</p><ol><li>Your password is ${password}. Please keep it as you will need it for log in after verification. It is highly recommended that you change it once you are verified.</li><li>Click here <a href='${link}'>verify account</a> to verify your account.</li></ol><p>If you did not request this, please ignore this email.</p> Regards, <br />Bechellente Ltd.`,
     };
 
     transporter.sendMail(mailOptions, (err, result) => {
