@@ -4,37 +4,24 @@ const { check } = require('express-validator');
 
 const User = require('../controllers/user');
 
-const authenticate = require('../middlewares/authenticate');
-const validate = require('../middlewares/validate');
-
 const router = express.Router();
 const upload = multer().single('profilePicture');
 
-router.get('/', authenticate, User.index);
-router.get('/dashboard', authenticate, User.details);
-
-// ADD NEW USER
-// router.post(
-//   '/new',
-//   [
-//     check('email').isEmail().withMessage('Enter a valid email address'),
-//     check('firstname')
-//       .not()
-//       .isEmpty()
-//       .withMessage('You first name is required'),
-//     check('lastname').not().isEmpty().withMessage('You last name is required'),
-//   ],
-//   validate,
-//   User.store,
-// );
+router.get('/dashboard', User.details);
+router.get('/dashboard/notifications', User.showAlerts);
+router.delete('/dashboard/notifications', User.deleteAlert);
 
 // UPDATE
-router.put('/:id', authenticate, upload, User.update);
+router.put('/profile/:id', User.update);
+router.patch('/:id', User.updateEmail);
+
+// UPLOAD
+router.patch('/upload/:id', upload, User.upload);
 
 //SHOW
-router.get('/:id', authenticate, User.show);
+router.get('/:id', User.show);
 
 //DELETE
-router.delete('/:id', authenticate, User.delete);
+router.delete('/:id', User.delete);
 
 module.exports = router;

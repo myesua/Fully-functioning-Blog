@@ -1,11 +1,14 @@
 const auth = require('./auth');
 const user = require('./user');
-const account = require('./account');
+const admin = require('./admin');
 const post = require('./post');
 const tip = require('./tip');
+const pending = require('./pending');
+const rejected = require('./rejected');
 const category = require('./category');
 
-const authController = require('../controllers/auth');
+const verify = require('../middlewares/verifyJWT');
+const verifyRole = require('../middlewares/verifyRole');
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
@@ -19,30 +22,12 @@ module.exports = (app) => {
       },
     });
   });
-  // app.all('*', authController.checkAccess);
-  // app.all('*', async (req, res) => {
-  //   const token = res;
-  //   console.log(res);
-  // });
   app.use('/api/auth', auth);
-  app.use('/api/user', user);
-  app.use('/api/account', account);
+  app.use('/api/user', verify, user);
+  app.use('/api/admin', verify, verifyRole, admin);
   app.use('/api/posts', post);
   app.use('/api/tips', tip);
+  app.use('/api/pending', verify, pending);
+  app.use('/api/rejected', verify, rejected);
   app.use('/api/categories', category);
-
-  app.post('/logout', (req, res, next) => {
-    if (req.session) {
-      req.logout((err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
-        // res.status(200).send({
-        //   success: true,
-        //   message: 'Logged out successfully!',
-        // });
-      });
-    }
-  });
 };

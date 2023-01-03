@@ -2,16 +2,16 @@ const express = require('express');
 const Category = require('../controllers/categories');
 
 const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
+const verify = require('../middlewares/verifyJWT');
 
 //CREATE
-router.post('/new', authenticate, Category.create);
+router.post('/new', verify, Category.create);
 
 // UPDATE
-router.put('/:id', authenticate, Category.update);
+router.put('/:id', verify, Category.update);
 
 //DELETE
-router.delete('/:id', authenticate, Category.delete);
+router.delete('/:id', verify, Category.delete);
 
 //VIEW
 router.get('/', Category.view);

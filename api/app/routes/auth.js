@@ -43,6 +43,9 @@ router.post(
   Auth.login,
 );
 
+// REFRESH TOKEN
+router.get('/refresh', Auth.refresh);
+
 //EMAIL Verification
 router.get('/verify/:token', Auth.verify);
 router.post('/resend', Auth.resend);
@@ -55,10 +58,10 @@ router.post(
   Password.recover,
 );
 
-router.get('/reset/:token', Password.reset);
+router.post('/reset-token', Password.resetToken);
 
 router.post(
-  '/reset/:token',
+  '/reset',
   [
     check('password')
       .not()
@@ -73,6 +76,7 @@ router.post(
   Password.resetPassword,
 );
 
-router.get('/check', Auth.check);
+// LOGOUT
+router.post('/logout', Auth.logout);
 
 module.exports = router;

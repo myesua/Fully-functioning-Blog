@@ -2,13 +2,13 @@ const express = require('express');
 const Tip = require('../controllers/tips');
 
 const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
+const verify = require('../middlewares/verifyJWT');
 
 //CREATE
-router.post('/new', authenticate, Tip.create);
+router.post('/new', verify, Tip.create);
 
 // UPDATE
-router.put('/:id', authenticate, Tip.update);
+router.put('/:id', verify, Tip.update);
 
 //VIEW
 router.get('/:id', Tip.view);
@@ -17,7 +17,7 @@ router.get('/:id', Tip.view);
 router.get('/tip/:slug', Tip.readBySlug);
 
 //DELETE
-router.delete('/:id', authenticate, Tip.delete);
+router.delete('/:id', verify, Tip.delete);
 
 //SHOW
 router.get('/', Tip.show);

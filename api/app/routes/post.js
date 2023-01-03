@@ -2,13 +2,13 @@ const express = require('express');
 const Post = require('../controllers/posts');
 
 const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
+const verify = require('../middlewares/verifyJWT');
 
 //CREATE
-router.post('/new', authenticate, Post.create);
+router.post('/new', verify, Post.create);
 
 // UPDATE
-router.put('/:id', authenticate, Post.update);
+router.put('/:id', verify, Post.update);
 
 //VIEW
 router.get('/:id', Post.view);
@@ -17,7 +17,7 @@ router.get('/:id', Post.view);
 router.get('/post/:slug', Post.readBySlug);
 
 //DELETE
-router.delete('/:id', authenticate, Post.delete);
+router.delete('/:id', verify, Post.delete);
 
 //SHOW
 router.get('/', Post.show);
