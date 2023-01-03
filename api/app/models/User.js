@@ -29,9 +29,23 @@ const UserSchema = new mongoose.Schema(
       select: false,
       max: 100,
     },
+    phone: {
+      type: String,
+      required: false,
+      max: 20,
+    },
+    url: {
+      type: String,
+      required: false,
+      max: 40,
+    },
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    refreshToken: {
+      type: String,
+      required: false,
     },
     resetPasswordToken: {
       type: String,
@@ -45,7 +59,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: 'Author',
       required: false,
-      max: 255,
+      max: 20,
     },
     bio: {
       type: String,
@@ -56,12 +70,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default:
         'https://res.cloudinary.com/doh3f4dzw/image/upload/v1667749613/defaultavatar_ipxcxq.png',
-      max: 255,
-    },
-    bannerImage: {
-      type: String,
-      default:
-        'https://res.cloudinary.com/doh3f4dzw/image/upload/v1667745990/nqxlyyv61omzx3zlxrxd.jpg',
       max: 255,
     },
   },
@@ -88,17 +96,22 @@ UserSchema.pre('save', function (next) {
 //   return bcrypt.compare(password, this.password);
 // };
 
-UserSchema.methods.generateJWT = function () {
+UserSchema.methods.generateAccessJWT = function () {
   let payload = {
     id: this._id,
-    firstname: this.firstname,
-    lastname: this.lastname,
-    email: this.email,
-    profilePicture: this.profilePicture,
-    bannerImage: this.bannerImage,
   };
 
-  return jwt.sign(payload, process.env.SESSION_SECRET, {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: '1h',
+  });
+};
+
+UserSchema.methods.generateRefreshJWT = function () {
+  let payload = {
+    id: this._id,
+  };
+
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: '1h',
   });
 };

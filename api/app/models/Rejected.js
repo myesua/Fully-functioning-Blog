@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PostSchema = new mongoose.Schema(
+const RejectedSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -15,7 +15,6 @@ const PostSchema = new mongoose.Schema(
     author: {
       type: String,
       required: true,
-      unique: true,
     },
     avatar: {
       type: String,
@@ -39,6 +38,4 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// PostSchema.index({ title: 'text' });
-
-module.exports = mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('Rejected', RejectedSchema);
