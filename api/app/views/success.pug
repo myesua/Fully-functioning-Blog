@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title='Bechellente - Password Recovery'
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        style
+          include success.css
+        
+          
+    body
+        .message
+            div Your password has been successfully changed!
+        script(type='text/javascript').
+          const messageContainer = document.querySelector('.message');
+          window.onload = () => {
+            messageContainer.style.transform = 'translateY(0)';
+            setTimeout(function() {
+              messageContainer.style.transform = 'translateY(-100px)'
+            }, 3000)
+          };
