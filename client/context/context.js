@@ -2,29 +2,25 @@ import { createContext, ProviderProps, useEffect, useReducer } from 'react';
 import Reducer from './Reducer';
 
 const INITIAL_STATE = {
-  user:
+  auth:
     (typeof window !== 'undefined' &&
-      JSON.parse(localStorage.getItem('user'))) ||
-    null,
-  isFetching: false,
-  error: false,
+      JSON.parse(localStorage.getItem('auth'))) ||
+    false,
 };
 
 export const Context = createContext(INITIAL_STATE);
 
-export const ContextProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(state.user));
-  }, [state.user]);
+    localStorage.setItem('auth', JSON.stringify(state.auth));
+  }, [state.auth]);
 
   return (
     <Context.Provider
       value={{
-        user: state.user,
-        isFetching: state.isFetching,
-        error: state.error,
+        auth: state.auth,
         dispatch,
       }}>
       {children}

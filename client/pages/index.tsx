@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Posts from '../components/posts/posts';
-import axios from 'axios';
+import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 
 const Home: NextPage = ({ user }: any) => {
@@ -13,13 +13,13 @@ const Home: NextPage = ({ user }: any) => {
 
   useEffect(() => {
     const getPosts = async () => {
-      const res = await axios.get(`${process.env.API_URI}/posts${asPath}`, {
+      const res = await axios.get(`${process.env.POSTS_URL}${asPath}`, {
         withCredentials: true,
       });
       setPosts(res.data.posts);
     };
     const getTips = async () => {
-      const res = await axios.get(`${process.env.API_URI}/tips${asPath}`, {
+      const res = await axios.get(`${process.env.TIPS_URL}${asPath}`, {
         withCredentials: true,
       });
       setTips(res.data.tips);
@@ -28,7 +28,7 @@ const Home: NextPage = ({ user }: any) => {
     getTips();
   }, [asPath, posts, tips]);
 
-  return <Posts user={user} posts={posts} tips={tips} />;
+  return <Posts posts={posts} tips={tips} user={user} />;
 };
 
 export default Home;

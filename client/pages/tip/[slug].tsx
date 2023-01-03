@@ -13,7 +13,7 @@ const TipSlug = ({ tip }: any) => {
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
 
-  const response = await axios(`${process.env.API_URI}/tips`);
+  const response = await axios(`${process.env.TIPS_URL}`);
   const tips = await response.data.tips;
   // Get the paths we want to pre-render based on posts
 
@@ -30,9 +30,7 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
 
-  const response = await axios(
-    `${process.env.API_URI}/tips/tip/${params?.slug}`,
-  );
+  const response = await axios(`${process.env.TIPS_URL}/tip/${params?.slug}`);
   const tip = response.data.tip;
 
   // Pass post data to the page via props

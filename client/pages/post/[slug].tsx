@@ -12,7 +12,9 @@ const PostSlug = ({ post, user }: any) => {
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
-  const res = await axios(`${process.env.API_URI}/posts`);
+  const res = await axios.get(`${process.env.API_URL}/posts`, {
+    withCredentials: true,
+  });
   const posts = await res.data.posts;
 
   // Get the paths we want to pre-render based on posts
@@ -29,7 +31,12 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
 
-  const res = await axios(`${process.env.API_URI}/posts/post/${params?.slug}`);
+  const res = await axios.get(
+    `${process.env.API_URL}/posts/post/${params?.slug}`,
+    {
+      withCredentials: true,
+    },
+  );
   const post = res.data.post;
 
   // Pass post data to the page via props
