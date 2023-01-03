@@ -1,6 +1,6 @@
 {
   "name": "bechellente-blog",
-  "version": "0.1.1",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,14 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.1.2",
     "dompurify": "^2.4.0",
     "next": "^12.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-quill": "^2.0.0",
-    "react-redux": "^8.0.5"
+    "react-quill": "^2.0.0"
   },
   "devDependencies": {
     "@redux-devtools/core": "^3.13.1",
@@ -26,6 +24,7 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5",
+    "redux-devtools-extension": "^2.13.9",
     "typescript": "^4.8.2"
   },
   "proxy": "http://localhost:8080"
