@@ -3,15 +3,11 @@ dotenv.config();
 
 const express = require('express');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
+
 const mongoose = require('mongoose');
-const passport = require('passport');
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const verifyJWT = require('./middlewares/verifyJWT');
 
 // === Setting up port ===
 const URI = process.env.URI;
