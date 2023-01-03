@@ -70,47 +70,29 @@ function shuffle(a: any) {
   return a;
 }
 
-const SingleTip = ({ tip }: any) => {
+const SingleTip = ({ tip }) => {
   const [isOpen, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [starState, setStarState] = useState(false);
-  const [cats, setCats] = useState([]);
   const [posts, setPosts] = useState([]);
   const [nextTips, setNextTips] = useState([]);
 
-  const { user } = useContext(Context);
-  let authorAvatar = user && user.profilePicture;
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  const author = user?.firstname + ' ' + user?.lastname;
-
-  const [title, setTitle] = useState(tip.title);
-  const [description, setDescription] = useState(tip.description);
-  const [banner, setBanner] = useState(tip.banner);
-  const [categories, setCategories] = useState(tip.categories);
-  const [readingTime, setReadingTime] = useState(tip.readingTime);
-  const [content, setContent] = useState(tip.content);
-
-  const [loaded, setLoaded] = useState(false);
 
   /**Get post categories from server */
   useEffect(() => {
-    const getCategories = async () => {
-      const res = await axios.get(`${process.env.API_URI}/categories`);
-      setCats(res.data.categories);
-    };
     const getNextTip = async () => {
-      const res = await axios.get(`${process.env.API_URI}/tips`);
+      const res = await axios.get(`${process.env.TIPS_URL}`);
       setNextTips(res.data.tips);
     };
     const getPosts = async () => {
-      const res = await axios.get(`${process.env.API_URI}/posts`);
+      const res = await axios.get(`${process.env.POSTS_URL}`);
       setPosts(res.data.posts);
     };
     getPosts;
     getNextTip();
-    getCategories();
   }, []);
 
   useEffect(() => {
@@ -128,101 +110,6 @@ const SingleTip = ({ tip }: any) => {
   }, [isOpen]);
 
   /**Hook to toggle `updateForm` when author clicks edit button */
-
-  useEffect(() => {
-    const overlay = document.getElementById('blur-overlay') as HTMLDivElement;
-    const editIcon = document.querySelector('#edit-icon') as HTMLImageElement;
-    const updateForm = document.getElementById('update') as HTMLElement;
-    const toggleUpdateForm = () => {
-      setLoaded(true);
-      overlay.style.display = 'block';
-      updateForm.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    };
-    tip.author === author &&
-      editIcon.addEventListener('click', toggleUpdateForm);
-
-    let newCategories: string[] = [];
-    const categoriesEl =
-      document.querySelectorAll<HTMLElement>('#category-option');
-
-    categoriesEl.forEach((option) => {
-      let selected = false;
-      const CustomSelect = () => {
-        if (!selected) {
-          selected = true;
-          if (
-            !newCategories.includes(option.innerText) &&
-            !option.hasAttribute('style')
-          ) {
-            newCategories.push(option.innerText);
-            setCategories(newCategories);
-            option.setAttribute(
-              'style',
-              'background: #396afc; color: #fff; transition: background 0.1s',
-            );
-          }
-        } else if (option.hasAttribute('style')) {
-          selected = false;
-          newCategories.pop();
-          setCategories(newCategories);
-          option.removeAttribute('style');
-        }
-      };
-      if (tip.categories.includes(option.innerText)) {
-        selected = true;
-        newCategories.push(option.innerText);
-        setCategories(newCategories);
-        option.setAttribute(
-          'style',
-          'background: #396afc; color: #fff; transition: background 0.1s',
-        );
-      }
-
-      option.addEventListener('click', CustomSelect);
-
-      return {
-        newCategories,
-      };
-    });
-  }, [loaded]);
-
-  /**Handle Tip update */
-  const handleUpdate = async () => {
-    try {
-      await axios.put(`${process.env.API_URI}/tips/${tip._id}`, {
-        author: author,
-        title: title,
-        description: description,
-        banner: banner,
-        categories: categories,
-        readingTime: readingTime,
-        content: content,
-        slug: title.toLowerCase().split(' ').join('-').replace(/\?/g, ''),
-        avatar: authorAvatar,
-      });
-      console.log('🎉', 'Your post has been updated successfully!');
-      window.location.replace('/');
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  /**Handle Tip delete */
-  const handleModal = () => {
-    setOpen(!isOpen);
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`${process.env.API_URI}/tips/${tip._id}`, {
-        data: { author: author },
-      });
-      router.push('/');
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   // Handle rating stars
   const handleStar = (e: any) => {
@@ -266,122 +153,14 @@ const SingleTip = ({ tip }: any) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerDiv}>
-        <Header />
+        <Header user={undefined} />
       </div>
-      <div className={styles.formContainer}>
-        <div className={styles.form} id="update">
-          <h1 className={styles.form__header}>Update tip</h1>
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setTitle(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {tip.title}
-          </div>
-
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setDescription(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {tip.description}
-          </div>
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setBanner(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {tip.banner}
-          </div>
-
-          <div className={styles.categories__options} id="categories-options">
-            {cats.map((cat: any, index: Key) => {
-              return (
-                <span
-                  key={index}
-                  className={styles.cat__option}
-                  id="category-option">
-                  {cat.name.toLowerCase()}
-                </span>
-              );
-            })}
-          </div>
-
-          <div>
-            <select
-              className={styles.options}
-              name="reading-time"
-              onChange={(e) => setReadingTime(e.target.value)}
-              required>
-              <option value={tip.readingTime}>{tip.readingTime}</option>
-              {readingDuration.map((duration, index) => {
-                while (duration.value !== tip.readingTime) {
-                  return (
-                    <option value={duration.value} key={index}>
-                      {duration.value}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-          </div>
-          <ReactQuill
-            modules={modules}
-            theme="snow"
-            defaultValue={tip.content}
-            onChange={setContent}
-            placeholder="Content goes here..."
-          />
-
-          <div className={styles.submitButtonContainer}>
-            <button onClick={handleUpdate} className={styles.submitButton}>
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.blur__overlay} id="blur-overlay"></div>
       <article className={styles.container}>
         <header className={styles.header}>
           <div className={styles.top__section}>
             <h1>{tip.title}</h1>
-            {tip.author === author && (
-              <div className={styles.owner__icons}>
-                <Image
-                  src={EditIcon}
-                  width={30}
-                  height={20}
-                  id="edit-icon"
-                  alt=""
-                  priority
-                />
-                <Image
-                  src={DeleteIcon}
-                  width={30}
-                  height={20}
-                  alt=""
-                  onClick={handleModal}
-                  priority
-                />
-              </div>
-            )}
           </div>
-          {isOpen && (
-            <div className={styles.modal} ref={ref}>
-              <span
-                className={styles.hiddenNav__closebtn}
-                onClick={handleModal}>
-                ⨉
-              </span>
-              <div className={styles.prompt}>
-                Are you sure you wanted to delete this post?
-              </div>
-              <div className={styles.button__container}>
-                <button onClick={handleDelete}>Yes</button>
-                <button onClick={handleModal}>No</button>
-              </div>
-            </div>
-          )}
+
           <p className={styles.post__description}>{tip.description}</p>
         </header>
 

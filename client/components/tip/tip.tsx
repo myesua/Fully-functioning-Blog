@@ -3,7 +3,7 @@ import card from './tip.module.css';
 
 function Tip({ tip }: any) {
   return (
-    <div className={card.tip}>
+    <div className={card.tip} id="tip">
       <header className={card.tipheader}>
         <span>
           <Link href="/">

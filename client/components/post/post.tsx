@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Post({ post }: any) {
   return (
-    <article className={card.container}>
+    <article className={card.container} id="post">
       <div className={card.head}>
         <Link href={`/post/${post.slug}`}>
           <a>
@@ -14,25 +14,31 @@ function Post({ post }: any) {
       <div className={card.body}>
         <Link href={`/post/${post.slug}`}>
           <a>
-            <h3 className={card.title}>{post.title}</h3>
+            <h3 className={card.title} id="post-title">
+              {post.title}
+            </h3>
           </a>
         </Link>
 
         <p className={card.desc}>{post.description}</p>
-        <p className={card.reading__time}>{post.readingTime}</p>
+        <p className={card.reading__time} id="reading-time">
+          {post.readingTime}
+        </p>
       </div>
       <div className={card.categories}>
         {post.categories.map((category: any) => {
           return (
             <Link href={`/?cat=${category}`} key={category?._id}>
               <a>
-                <span className={card.tag}>{category.toLowerCase()}</span>
+                <span className={card.tag} id="tag">
+                  {category.toLowerCase()}
+                </span>
               </a>
             </Link>
           );
         })}
       </div>
-      <div className={card.author}>
+      <div className={card.author} id="author">
         <Link href={`/?user=${post.author}`}>
           <a>
             <img

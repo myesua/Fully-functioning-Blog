@@ -1,39 +1,29 @@
 import Link from 'next/link';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import styles from './Header.module.css';
-import MenuIcon from '../../public/menu-icon.svg';
+import MenuIcon from '../../public/images/menuicon.svg';
 import Image from 'next/image';
-import { Context } from '../../context/context';
+
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { Context } from '../../context/context';
 
-const Header = ({ user }: any) => {
+const Header = ({ user }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [blur, setBlur] = useState(false);
-  const router = useRouter();
 
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
-  useEffect(() => {
-    const checkOutsideClick = (e: any) => {
-      if (isOpen && ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', checkOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', checkOutsideClick);
-    };
-  }, [isOpen]);
+  const { auth, dispatch } = useContext(Context);
+  const router = useRouter();
+  const id = user?._id.toString();
 
   useEffect(() => {
     setHydrated(true);
-  }, []);
+  }, [hydrated]);
 
   useEffect(() => {
     const searchInput = document.getElementById(
@@ -58,22 +48,62 @@ const Header = ({ user }: any) => {
       overlay.setAttribute('style', 'display: block');
     };
     overlay.addEventListener('click', removeOverlay);
-    searchInput.addEventListener('input', applyOverlay);
+    searchInput.addEventListener('input', () => {
+      const wrapper = document.getElementById('wrapper') as HTMLDivElement;
+      const h1s = wrapper.getElementsByTagName('h1');
+      const post = document.querySelectorAll('#post');
+      const postTitle = document.querySelectorAll('#post-title');
+      const tag = document.querySelectorAll('#tag');
+      const readingTime = document.querySelectorAll('#reading-time');
+      const author = document.querySelectorAll('#author');
+      const tip = document.querySelectorAll('#tip');
+      const footerSocial = document.querySelector('#footer-social');
+      const footerh5 = document.querySelector('#footer-h5');
+      const footerPrivacy = document.querySelector('#footer-privacy');
+      const footerLink = document.querySelectorAll('#footer-link');
+      wrapper.setAttribute('style', 'background-color: #000');
+      Array.from(h1s).forEach((h1) => h1.setAttribute('style', 'color: #fff'));
+      Array.from(post).forEach((i) => i.setAttribute('style', 'color: #fff'));
+      Array.from(postTitle).forEach((i) =>
+        i.setAttribute('style', 'color: #fff'),
+      );
+      Array.from(tag).forEach((i) =>
+        i.setAttribute('style', 'background-color: #283c86'),
+      );
+      Array.from(readingTime).forEach((i) =>
+        i.setAttribute('style', 'color: #fff'),
+      );
+      Array.from(author).forEach((i) => i.setAttribute('style', 'color: #fff'));
+      Array.from(tip).forEach((i) =>
+        i.setAttribute('style', 'background-color: #fff'),
+      );
+      footerSocial.setAttribute('style', 'color: #fff');
+      footerPrivacy.setAttribute('style', 'color: #fff');
+      footerh5.setAttribute('style', 'color: #fff');
+      Array.from(footerLink).forEach((i) =>
+        i.setAttribute('style', 'color: #fff'),
+      );
+    });
   }, [blur]);
 
   useEffect(() => {
     const getSearchResults = async () => {
-      if (!query || query.length === 0) {
+      if (!query || query.length === 0 || query.length > 3) {
         setSearchResult([]);
         return false;
       }
-      const res = await axios.get(`${process.env.API_URI}/posts`, {
-        params: {
-          search: query,
-        },
-      });
-      setSearchResult(res.data);
+
+      if (query.length > 2) {
+        const res = await axios.get(`${process.env.API_URI}/posts`, {
+          params: {
+            search: query,
+          },
+        });
+
+        setSearchResult(res.data);
+      }
     };
+
     getSearchResults();
   }, [query]);
 
@@ -86,9 +116,19 @@ const Header = ({ user }: any) => {
   };
 
   const handleLogout = async () => {
-    const res = await axios.post(`${process.env.API_URI}/auth/login`);
-    console.log(res);
-    // router.push('/account');
+    try {
+      const res = await axios.post(
+        `${process.env.LOGOUT_URL}`,
+        { id: id },
+        {
+          withCredentials: true,
+        },
+      );
+      dispatch({ type: 'LOGOUT' });
+      router.push('/login');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -97,8 +137,8 @@ const Header = ({ user }: any) => {
         <div className={styles.logo}>
           <Image
             src={MenuIcon}
-            width={40}
-            height={40}
+            width={25}
+            height={25}
             layout="fixed"
             alt=""
             onClick={handleHiddenNav}
@@ -181,11 +221,11 @@ const Header = ({ user }: any) => {
         <div className={styles.blur__overlay} id="blur-overlay"></div>
         {isOpen && (
           <div className={styles.hiddenNav} ref={ref}>
-            <span
+            {/* <span
               className={styles.hiddenNav__closebtn}
               onClick={handleHiddenNav}>
               ⨉
-            </span>
+            </span> */}
             <ul>
               <li>
                 <Link href="/">

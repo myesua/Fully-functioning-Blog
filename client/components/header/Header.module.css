@@ -1,6 +1,7 @@
 .header {
   width: 100%;
   padding: 1.5rem;
+  /* background-color: #283c86; */
 }
 
 .nav {
@@ -16,6 +17,11 @@
   align-items: center;
 }
 
+.logo img {
+  background-color: #283c86;
+  border-radius: 8px;
+}
+
 .logo span {
   font-family: 'Dancing Script', sans-serif;
   font-size: 1.25rem;
@@ -23,7 +29,7 @@
 }
 
 .logo span a {
-  color: #283c86;
+  color: var(--text-color-primary);
 }
 
 .toplinks {
@@ -31,7 +37,7 @@
 }
 
 .toplinks a {
-  color: #283c86;
+  color: var(--text-color-primary);
   padding: 3px 5px;
 }
 
@@ -68,6 +74,18 @@
 }
 
 .hiddenNav {
+  position: absolute;
+  top: 3%;
+  left: 0;
+  width: 100%;
+  background-color: #283c86;
+  padding: 1rem 0;
+  z-index: 20;
+  transform: translateY(62px);
+  transition: position 1s linear;
+}
+
+/* .hiddenNav {
   display: block;
   position: absolute;
   top: 0;
@@ -80,29 +98,30 @@
   overflow-y: auto;
   transition: all cubic-bezier(0.71, 0.04, 0.45, 0.01) 0.5s;
   overscroll-behavior-y: contain;
-}
+  z-index: 20;
+} */
 
 .hiddenNav__closebtn {
   cursor: pointer;
   padding: 0 2rem;
-  /* color: #04140a; */
   color: #fff;
   font-weight: 900;
   font-size: 20px;
   float: right;
+  display: none;
 }
 
 .hiddenNav ul {
   list-style-type: none;
   display: grid;
-  margin: 0;
-  padding: 1rem 0;
-  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  width: 90%;
 }
 
 .hiddenNav ul li {
-  width: 90%;
-  padding: 1rem;
+  /* width: 90%; */
+  padding: 1rem 0;
 }
 
 .hiddenNav ul li a {
@@ -122,8 +141,9 @@
   top: 17%;
   left: 0;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0.4rem);
+  /* background: rgba(179, 174, 174, 0.1); */
+  background: #234cee00;
+  /* backdrop-filter: blur(0.2rem); */
 }
 
 .search__output__wrapper {
@@ -198,17 +218,18 @@
 @media screen and (max-width: 300px) {
   .nav {
     display: flex;
-    flex-wrap: wrap;
   }
 
   .topsearch {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
+    margin-left: -2rem;
   }
 
   .topsearch input {
-    width: 150px;
+    width: 130px;
+  }
+
+  .hiddenNav ul {
+    width: 80%;
   }
 }
 @media screen and (min-width: 301px) and (max-width: 428px) {
@@ -224,6 +245,10 @@
     max-width: 130px;
     padding: 0.4rem;
   }
+
+  .hiddenNav ul {
+    width: 85%;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -235,6 +260,18 @@
 @media screen and (min-width: 720px) {
   .topsearch {
     width: 260px;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 699px) {
+  .hiddenNav ul {
+    width: 91%;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 760px) {
+  .hiddenNav ul {
+    width: 92%;
   }
 }
 

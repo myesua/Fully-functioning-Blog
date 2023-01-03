@@ -24,8 +24,8 @@ const Footer = () => {
           <button>Talk to a mechanic</button>
         </div>
 
-        <div className={styles.footer__social}>
-          <h5>Follow us on</h5>
+        <div className={styles.footer__social} id="footer-social">
+          <h5 id="footer-h5">Follow us on</h5>
           <ul className={styles.fs__icons}>
             <li>
               <Link href="/">
@@ -68,20 +68,20 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className={styles.footer__privacy}>
+        <div className={styles.footer__privacy} id="footer-privacy">
           <span>
             Copyright &copy; 2022 Bechellente Technologies. All Rights Reserved.
           </span>
           <ul>
             <li>
               <Link href="/">
-                <a>Privacy Policy</a>
+                <a id="footer-link">Privacy Policy</a>
               </Link>
             </li>
             <li>|</li>
             <li>
               <Link href="/">
-                <a>About Bechellente</a>
+                <a id="footer-link">About Bechellente</a>
               </Link>
             </li>
           </ul>

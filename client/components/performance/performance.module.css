@@ -1,0 +1,75 @@
+.card {
+  background-color: #000;
+  color: #fff;
+  height: 22rem;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.head .colon {
+  cursor: pointer;
+  background-color: rgb(42, 41, 41);
+  border-radius: 50%;
+  font-weight: bold;
+  padding: 0 11px;
+}
+
+.card__stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  margin: 2.8rem 0;
+}
+
+.card__stats__content,
+.card__stats__quality {
+  display: grid;
+  text-align: center;
+}
+
+.card__stats__text {
+  font-size: 0.7rem;
+  color: rgb(143, 138, 138);
+}
+
+.card__stats__details {
+  display: grid;
+  gap: 2rem;
+}
+
+.card__stats__details span {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card__stats__details span i {
+  display: flex;
+  align-items: center;
+  background-color: #fc6f22;
+  border-radius: 50%;
+  padding: 7px;
+  font-size: 11px;
+}
+
+.card__stats__details span:nth-child(2) i {
+  background-color: #5244f4;
+}
+
+.card__stats__details span:nth-child(3) i {
+  background-color: #eda03c;
+}
+
+.card__stats__details span span {
+  font-size: 13px;
+}
+
+.card__stats__details__fade {
+  color: burlywood;
+  opacity: 0.8;
+}

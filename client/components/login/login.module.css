@@ -1,0 +1,193 @@
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.message {
+  position: absolute;
+  top: 0;
+  background-color: #f1db80;
+  width: 100%;
+  padding: 2rem 3rem;
+  text-align: center;
+  font-size: 1.2rem;
+  transform: translateY(-100px);
+  transition: transform 0.4s ease-in-out;
+}
+
+.header {
+  height: 5.5em;
+}
+
+.parent {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 600px;
+}
+
+.wrapper {
+  max-width: 25rem;
+  width: 90%;
+  box-shadow: 1px 1px 5px 1px #e0e0e0;
+}
+
+.accountOptions {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.signInOption {
+  cursor: pointer;
+  width: 50%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid #283c86;
+  color: #283c86;
+  font-size: 1.1rem;
+}
+
+.signin {
+  padding: 0 2rem;
+}
+
+.label {
+  font-size: 2rem;
+}
+
+.heading {
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+  color: #283c86;
+}
+
+.image__container {
+  display: grid;
+  place-items: center;
+  margin-bottom: 2rem;
+}
+
+.textBox {
+  width: 100%;
+  border: 1.3px solid rgba(0, 0, 0, 0.8);
+  border-radius: 2px;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.textBox::placeholder {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.passContainer {
+  display: flex;
+  width: 100%;
+}
+
+.passBox {
+  width: 100%;
+  border: 1.3px solid rgba(0, 0, 0, 0.8);
+  border-radius: 2px;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.passBox::-ms-reveal {
+  display: none !important;
+}
+
+.passBox::placeholder {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.textBox:focus,
+.passBox:focus {
+  outline: 1px solid #283c86;
+}
+
+.visibility {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -40px;
+}
+
+.visibility img {
+  cursor: pointer;
+}
+
+.formWrapper {
+  display: grid;
+  gap: 2rem;
+
+  /* margin-top: 0.8rem; */
+}
+
+.formWrapper .action {
+  background-color: #283c86;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  border-radius: 2px;
+}
+
+.formWrapper .action:disabled {
+  background-color: #6287f5;
+  cursor: not-allowed;
+}
+
+.recoverKey {
+  color: #283c86;
+  text-align: center;
+}
+
+.alertErrorBox__1 {
+  border: 1px solid #cc0000;
+  font-size: 12px;
+  padding: 0.5rem;
+  display: none;
+  gap: 0.7rem;
+  color: #363636;
+  line-height: 1.666666667;
+  margin-top: 0.7rem;
+  transition: all 0.01s ease-in-out;
+}
+
+.alertErrorBox__2 {
+  border: 1px solid #cc0000;
+  font-size: 12px;
+  padding: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  color: #363636;
+  line-height: 1.666666667;
+  margin-top: 0.7rem;
+}
+
+.persist__check__wrapper {
+  font-size: 0.7rem;
+  margin-top: -2.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.persist__check__wrapper label {
+  margin: 0;
+}
+
+.persist__check {
+  height: 15px;
+  width: 15px;
+  margin: 0 5px 2px 2px;
+  accent-color: #283c86;
+}

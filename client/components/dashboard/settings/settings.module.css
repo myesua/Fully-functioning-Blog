@@ -1,0 +1,331 @@
+.settings_container {
+  display: grid;
+  gap: 2rem;
+  width: 100%;
+}
+
+.settings {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 70%;
+  box-shadow: 0 5px 5px 1px #e0e0e0;
+  padding: 0 1.5rem;
+  padding-top: 1rem;
+  background-color: #fff;
+}
+
+.settings__info {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 70%;
+  box-shadow: 0 5px 5px 1px #e0e0e0;
+  padding: 0 1.5rem;
+  padding-top: 1rem;
+  /* background-color: var(--bg-color-primary); */
+  color: var(--text-color-white);
+  opacity: 0;
+  transition: opacity 7s ease-in-out;
+  /* animation: fade 10s ease-in-out; */
+}
+
+.update_image {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.update_image img {
+  cursor: pointer;
+}
+
+.update_image button {
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 0.7rem;
+  font-size: 12px;
+  font-family: var(--font-family-primary);
+}
+
+.update_image button:hover {
+  background-color: var(--bg-color-black);
+  color: var(--text-color-white);
+}
+
+.image {
+  border-radius: 50%;
+  background-color: #e0e0e0;
+}
+
+.image__input {
+  display: none;
+}
+
+.update_image button {
+  cursor: pointer;
+}
+.parent {
+  display: flex;
+  gap: 1rem;
+}
+
+.wrapper {
+  display: grid;
+  width: 100%;
+}
+
+.wrapper label {
+  color: rgb(111, 111, 111);
+  font-size: 14px;
+}
+
+.wrapper .input__box {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 100%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+.wrapper .input__box__phone {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 70%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+.save_change {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+}
+.save_change button {
+  width: 60%;
+  padding: 0.4rem 0;
+  background-color: var(--bg-color-secondary);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input__box__email {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 70%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+.input__box:focus {
+  border-bottom: 1px solid var(--text-color-secondary);
+}
+.input__box__password:focus {
+  border-bottom: 1px solid var(--text-color-secondary);
+}
+.input__box__phone:focus {
+  border-bottom: 1px solid var(--text-color-secondary);
+}
+.input__box__email:focus {
+  border-bottom: 1px solid var(--text-color-secondary);
+}
+
+.wrapper__password .input__box:focus {
+  border-bottom: 1px solid var(--text-color-secondary);
+}
+
+.wrapper .bio {
+  max-width: 100%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+.wrapper .bio:focus {
+  outline-color: var(--text-color-secondary);
+}
+
+.input__box__password {
+  margin-top: 2rem;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 70%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+.hidden__text {
+  /* display: none; */
+  font-size: 13px;
+}
+
+.wrapper__password {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 700;
+}
+
+.title__first {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 700;
+  justify-content: space-between;
+}
+
+.message {
+  color: #3e9462;
+  font-weight: normal;
+  opacity: 0;
+}
+
+.animate {
+  animation: fadeInOut 1.5s 4 ease-in-out;
+}
+
+.title__first span i {
+  font-size: 14px;
+  margin-right: 0.2rem;
+}
+
+.wrapper__password .input__box {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  width: 70%;
+  font-family: var(--font-family-primary);
+  font-size: 15px;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 299px) {
+  .settings {
+    width: 100%;
+  }
+
+  .settings__info {
+    width: 100%;
+  }
+
+  .parent {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .wrapper__password {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .save_change button {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 499px) {
+  .settings {
+    width: 95%;
+  }
+
+  .settings__info {
+    width: 95%;
+  }
+
+  .parent {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .wrapper__password {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .save_change button {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 699px) {
+  .settings {
+    width: 90%;
+  }
+
+  .settings__info {
+    width: 90%;
+  }
+
+  .input__box__email,
+  .input__box__password {
+    width: 50%;
+  }
+
+  .wrapper__password {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .save_change button {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 799px) {
+  .settings {
+    width: 90%;
+  }
+
+  .settings__info {
+    width: 90%;
+  }
+
+  .input__box__email,
+  .input__box__password {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 920px) {
+  .settings {
+    width: 90%;
+  }
+
+  .settings__info {
+    width: 90%;
+  }
+
+  .wrapper__password {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .wrapper__password .input__box {
+    width: 50%;
+  }
+}

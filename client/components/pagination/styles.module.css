@@ -1,0 +1,18 @@
+.page__item {
+  font-size: 1.1rem;
+  background-color: transparent;
+  border: none;
+  margin: 0.25rem 0.25rem;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 0.2rem;
+}
+.page__item:not(.page__item__active):hover {
+  background: var(--text-color-white);
+}
+
+.page__item__active {
+  color: var(--text-color-white);
+  background: var(--text-color-secondary);
+}

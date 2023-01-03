@@ -1,0 +1,59 @@
+.container {
+  width: 100%;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.wrapper h5 {
+  color: var(--text-color-secondary);
+}
+
+.article {
+  display: grid;
+  position: relative;
+}
+
+.owner__icons {
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  z-index: 10;
+  position: absolute;
+  top: -2%;
+}
+
+.owner__icons img {
+  cursor: pointer;
+}
+
+.modal {
+  box-shadow: 1px 5px 15px 1px #e0e0e0;
+  width: 25rem;
+  position: absolute;
+  top: -10%;
+  right: 10%;
+  padding-left: 2rem;
+  padding-right: 0.8rem;
+  padding-bottom: 1rem;
+  z-index: 10;
+  background-color: #000;
+}
+
+.pagination__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (min-width: 640px) {
+  .main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}

@@ -4,60 +4,21 @@ import { useRouter } from 'next/router';
 import Image from 'next/future/image';
 
 import styles from './single.module.css';
-import 'react-quill/dist/quill.snow.css';
 
 import facebook from '../../public/images/facebook.svg';
 import linkedin from '../../public/images/linkedin.svg';
 import twitter from '../../public/images/twitter.svg';
 import advertsample from '../../public/images/advertsample.png';
 import arrow from '../../public/down.svg';
-import EditIcon from '../../public/edit.svg';
-import DeleteIcon from '../../public/delete.svg';
 
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import dynamic from 'next/dynamic';
 
-import { Context } from '../../context/context';
 import Header from '../header/Header';
 import Tip from '../tip/tip';
 import NextPost from '../post/nextPost';
 import Subscription from '../subscription/subscription';
 import Footer from '../footer/Footer';
-
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-});
-
-const modules = {
-  toolbar: [
-    [{ font: [] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ color: [] }, { background: [] }],
-    [{ script: 'sub' }, { script: 'super' }],
-    ['blockquote', 'code-block'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ indent: '-1' }, { indent: '+1' }, { align: [] }],
-    ['link', 'image', 'video'],
-    ['clean'],
-  ],
-};
-
-const readingDuration = [
-  {
-    value: '2 mins read',
-  },
-  {
-    value: '3 mins read',
-  },
-  {
-    value: '5 mins read',
-  },
-  {
-    value: '7 mins read',
-  },
-];
 
 function shuffle(a: any) {
   let j, x, i;
@@ -70,161 +31,26 @@ function shuffle(a: any) {
   return a;
 }
 
-const SinglePost = ({ post, user }: any) => {
-  const [isOpen, setOpen] = useState(false);
+const SinglePost = ({ post }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [cats, setCats] = useState([]);
   const [tips, setTips] = useState([]);
   const [nextPosts, setNextPosts] = useState([]);
 
-  let authorAvatar = user && user.profilePicture;
-  const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
-
-  const [title, setTitle] = useState(post.title);
-  const [desc, setDesc] = useState(post.description);
-  const [banner, setBanner] = useState(post.banner);
-  const [categs, setCategs] = useState(post.categories);
-  const [rt, setRT] = useState(post.readingTime);
-  const [content, setContent] = useState(post.content);
-  const author = user && user.firstname + ' ' + user.lastname;
-
-  const [loaded, setLoaded] = useState(false);
-
   /**Get data from server */
   useEffect(() => {
-    const getCategories = async () => {
-      const res = await axios.get(`${process.env.API_URI}/categories`);
-      setCats(res.data.categories);
-    };
     const getTips = async () => {
-      const res = await axios.get(`${process.env.API_URI}/tips`);
+      const res = await axios.get(`${process.env.TIPS_URL}`);
       setTips(res.data.tips);
     };
 
     const getNextPost = async () => {
-      const res = await axios.get(`${process.env.API_URI}/posts`);
+      const res = await axios.get(`${process.env.POSTS_URL}`);
       setNextPosts(res.data.posts);
     };
     getNextPost();
-
     getTips();
-    getCategories();
   }, []);
-
-  /**Handle delete modal */
-  useEffect(() => {
-    const checkOutsideClick = (e: { target: any }) => {
-      if (isOpen && ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', checkOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', checkOutsideClick);
-    };
-  }, [isOpen]);
-
-  const handleModal = () => {
-    setOpen(!isOpen);
-  };
-
-  /**Function to toggle `updateForm` when author clicks edit button */
-
-  useEffect(() => {
-    const overlay = document.getElementById('blur-overlay') as HTMLDivElement;
-    const editIcon = document.getElementById('edit-icon') as HTMLImageElement;
-    const updateForm = document.getElementById('update') as HTMLElement;
-    const toggleUpdateForm = () => {
-      setLoaded(true);
-      overlay.style.display = 'block';
-      updateForm.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    };
-
-    post.author === author &&
-      editIcon.addEventListener('click', toggleUpdateForm);
-
-    let newCategories: string[] = [];
-    const categoriesEl =
-      document.querySelectorAll<HTMLElement>('#category-option');
-
-    categoriesEl.forEach((option) => {
-      let selected = false;
-      const CustomSelect = () => {
-        if (!selected) {
-          selected = true;
-          if (
-            !newCategories.includes(option.innerText) &&
-            !option.hasAttribute('style')
-          ) {
-            newCategories.push(option.innerText);
-            setCategs(newCategories);
-            option.setAttribute(
-              'style',
-              'background: #396afc; color: #fff; transition: background 0.1s',
-            );
-          }
-        } else if (option.hasAttribute('style')) {
-          selected = false;
-          newCategories.pop();
-          setCategs(newCategories);
-          option.removeAttribute('style');
-        }
-      };
-      if (post.categories.includes(option.innerText)) {
-        selected = true;
-        newCategories.push(option.innerText);
-        setCategs(newCategories);
-        option.setAttribute(
-          'style',
-          'background: #396afc; color: #fff; transition: background 0.1s',
-        );
-      }
-
-      option.addEventListener('click', CustomSelect);
-
-      return {
-        newCategories,
-      };
-    });
-  }, [loaded]);
-
-  /**Handle post update */
-  const handleUpdate = async () => {
-    try {
-      await axios.put(`${process.env.API_URI}/posts/${post._id}`, {
-        author: author,
-        title: title,
-        description: desc,
-        banner: banner,
-        categories: categs,
-        readingTime: rt,
-        content: content,
-        slug: title.toLowerCase().split(' ').join('-').replace(/\?/g, ''),
-        avatar: authorAvatar,
-      });
-      console.log('🎉', 'Your post has been updated successfully!');
-      window.location.replace('/');
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  /**Handle post delete */
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`${process.env.API_URI}/posts/${post._id}`, {
-        data: { author: author },
-      });
-      router.push('/');
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   /**Prevent XSS from Editor*/
   const sanitizeData = () => ({
@@ -255,122 +81,13 @@ const SinglePost = ({ post, user }: any) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerDiv}>
-        <Header />
+        <Header user={undefined} />
       </div>
-      <div className={styles.formContainer}>
-        <div className={styles.form} id="update">
-          <h1 className={styles.form__header}>Update post</h1>
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setTitle(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {post.title}
-          </div>
-
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setDesc(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {post.description}
-          </div>
-          <div
-            className={styles.input}
-            contentEditable="true"
-            onInput={(e: any) => setBanner(e.target.innerText)}
-            suppressContentEditableWarning={true}>
-            {post.banner}
-          </div>
-
-          <div className={styles.categories__options} id="categories-options">
-            {cats.map((cat: any) => {
-              return (
-                <span
-                  key={cat._id}
-                  className={styles.cat__option}
-                  id="category-option">
-                  {cat.name.toLowerCase()}
-                </span>
-              );
-            })}
-          </div>
-
-          <div>
-            <select
-              className={styles.options}
-              name="reading-time"
-              onChange={(e) => setRT(e.target.value)}
-              required>
-              <option value={post.readingTime}>{post.readingTime}</option>
-              {readingDuration.map((duration, index) => {
-                while (duration.value !== post.readingTime) {
-                  return (
-                    <option value={duration.value} key={index}>
-                      {duration.value}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-          </div>
-          <ReactQuill
-            modules={modules}
-            theme="snow"
-            defaultValue={post.content}
-            onChange={setContent}
-            placeholder="Content goes here..."
-          />
-
-          <div className={styles.submitButtonContainer}>
-            <button onClick={handleUpdate} className={styles.submitButton}>
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.blur__overlay} id="blur-overlay"></div>
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.top__section}>
             <h1>{post.title}</h1>
-            {post.author === author && (
-              <div className={styles.owner__icons}>
-                <Image
-                  src={EditIcon}
-                  width={30}
-                  height={20}
-                  alt=""
-                  id="edit-icon"
-                  priority
-                />
-                <Image
-                  src={DeleteIcon}
-                  width={30}
-                  height={20}
-                  alt=""
-                  onClick={handleModal}
-                  priority
-                />
-              </div>
-            )}
           </div>
-          {isOpen && (
-            <div className={styles.modal} ref={ref}>
-              <span
-                className={styles.hiddenNav__closebtn}
-                onClick={handleModal}>
-                ⨉
-              </span>
-              <div className={styles.prompt}>
-                Are you sure you wanted to delete this post?
-              </div>
-              <div className={styles.button__container}>
-                <button onClick={handleDelete}>Yes</button>
-                <button onClick={handleModal}>No</button>
-              </div>
-            </div>
-          )}
           <p className={styles.post__description}>{post.description}</p>
         </header>
 
@@ -487,13 +204,6 @@ const SinglePost = ({ post, user }: any) => {
                       src={linkedin.src}
                       onClick={shareOnLinkedIn}
                     />
-                  </li>
-                  <li>
-                    <a
-                      className="twitter-share-button"
-                      href="https://twitter.com/intent/tweet">
-                      Tweet
-                    </a>
                   </li>
                 </ul>
               </div>

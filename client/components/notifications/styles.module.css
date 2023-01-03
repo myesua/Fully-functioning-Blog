@@ -1,0 +1,11 @@
+.notification__container {
+  display: grid;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.notification {
+  display: grid;
+  gap: 1rem;
+  flex: 1;
+}

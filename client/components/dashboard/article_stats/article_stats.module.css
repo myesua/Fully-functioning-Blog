@@ -1,0 +1,63 @@
+.card {
+  position: relative;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 6rem;
+  padding: 15px 13px;
+  display: grid;
+  height: 5rem;
+  cursor: pointer;
+}
+
+.card__2 {
+  border-radius: 10px;
+  background-color: #fff;
+  width: 6rem;
+  display: grid;
+  height: 5rem;
+  cursor: pointer;
+  background-image: url(../../../public/images/wave.svg);
+  background-size: cover;
+  background-position: top;
+}
+
+.card__2__text {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 13px;
+}
+
+.content {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.card__2 .content {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.card__2__icon {
+  padding-left: 13px;
+}
+
+.card span:first-child {
+  font-weight: bold;
+}
+
+.icon {
+  position: absolute;
+  top: -10px;
+  left: 13px;
+  background-color: #fc6f22;
+  padding: 3px 4.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon i {
+  font-size: 9px;
+  color: #fff;
+  font-weight: bold;
+}
